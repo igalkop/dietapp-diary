@@ -25,17 +25,10 @@ public class DiaryService {
         return diaryEntryRepository.findAllByDate(date);
     }
 
-    public DateInfoSummary getAllEntriesForDate(LocalDate date) {
+    public DateInfoSummary getInfoForDate(LocalDate date) {
         List<DiaryEntry> allForDate = getAllForDate(date);
         Double totalForDate = getTotalForDate(allForDate);
         return new DateInfoSummary(totalForDate, allForDate);
-    }
-
-    private Double getTotalForDate(List<DiaryEntry> allForDate) {
-        return allForDate
-                .stream()
-                .map(diaryEntry -> diaryEntry.getAmount() * diaryEntry.getFoodPoints())
-                .reduce(0.0, Double::sum);
     }
 
     public void update(Long idToUpdate, DiaryEntry diaryEntryToUpdate) {
@@ -48,5 +41,12 @@ public class DiaryService {
             throw new DiaryEntryNotFoundException(idToUpdate.toString());
         }
         diaryEntryRepository.save(diaryEntryToUpdate);
+    }
+
+    private Double getTotalForDate(List<DiaryEntry> allForDate) {
+        return allForDate
+                .stream()
+                .map(diaryEntry -> diaryEntry.getAmount() * diaryEntry.getFoodPoints())
+                .reduce(0.0, Double::sum);
     }
 }

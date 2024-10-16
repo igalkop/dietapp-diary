@@ -47,7 +47,7 @@ public class DiaryController {
     public ResponseEntity<DateInfoSummaryDTO> getDateSummary(@PathVariable Integer year, @PathVariable Integer month, @PathVariable Integer day) {
         LocalDate date = LocalDate.of(year, month, day);
         log.info("request to get diary summery for date: {}", date);
-        DateInfoSummary allEntriesForDate = diaryService.getAllEntriesForDate(date);
+        DateInfoSummary allEntriesForDate = diaryService.getInfoForDate(date);
         return ResponseEntity.ok(mapper.dateInfoSummaryToDateInfoSummaryDto(allEntriesForDate));
     }
 
